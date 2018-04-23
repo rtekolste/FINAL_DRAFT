@@ -6,28 +6,25 @@ class HealthStats(Enum):
     WELL = 0
     HTN = 1
     STROKE = 2
-    DEATH = 3
-    DETECT = 4
-    NO_DETECT = 5
+    DETECT = 3
+    NO_DETECT = 4
+    DEATH = 5
 
 
 class Therapies(Enum):
     """ mono vs. combination therapy """
     NONE = 0
-    ANTICOAG = 1
+    MgSO4 = 1
+    ANTICOAG = 2
 
 
 class ParametersFixed():
     def __init__(self, therapy):
-
         # selected therapy
         self._therapy = therapy
-
         # simulation time step
         self._delta_t = Data.DELTA_T
-
         self._adjDiscountRate = Data.DISCOUNT * Data.DELTA_T
-
         # initial health state
         self._initialHealthState = HealthStats.WELL
 
@@ -39,17 +36,27 @@ class ParametersFixed():
 
         # transition probability matrix of the selected therapy
         self._prob_matrix = []
-        # treatment relative risk
-        self._treatmentRR = 0
 
         # calculate transition probabilities depending of which therapy options is in use
         if therapy == Therapies.NONE:
             self._prob_matrix = Data.TRANS_MATRIX
+        elif therapy == Therapies.MgSO4:
+            self._prob_matrix = Data.TRANS_MATRIX_MGSO4
         else:
-            self._prob_matrix = calculate_prob_matrix_anticoag()
+            self._prob_matrix = Data.TRANS_MATRIX_ANTICOAG
 
+#annual state cvsots and utilities
         self._annualStateCosts = Data.HEALTH_COST
         self._annualStateUtilities = Data.HEALTH_UTILITY
+
+# annual treatment cost
+        if self._treatment == Treatment.MGSO4:
+            self._annualTreatmentCost = Data.COST_MGSO4
+        elif self._treatment == Treatment.ANTICOAG:
+            self._annualTreatmentCost = Data.COST_ANTICOAG
+
+    # adjusted discount rate
+        self._adjDiscountRate = Data.DISCOUNT_RATE * Data.DELTA_T
 
     def get_initial_health_state(self):
         return self._initialHealthState
@@ -78,6 +85,7 @@ class ParametersFixed():
     def get_annual_treatment_cost(self):
         return self._annualTreatmentCost
 
+####Get this checked...#####
 
 def calculate_prob_matrix_anticoag():
     """ :returns transition probability matrix under anticoagulation use"""
