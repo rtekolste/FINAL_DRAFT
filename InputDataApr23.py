@@ -10,9 +10,9 @@
 
 ALPHA = 0.05
 DISCOUNT_RATE = 0.03
-DELTA_T = 1
+DELTA_T = 1/28
 POP_SIZE = 5000
-SIM_LENGTH = 5 #years
+SIM_LENGTH = 20 #years
 
 # transition matrix
 TRANS_MATRIX = [
