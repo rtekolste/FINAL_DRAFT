@@ -7,9 +7,7 @@ class HealthStats(Enum):
     HTN = 1
     STROKE = 2
     DETECT = 3
-    NO_DETECT = 4
-    DEATH = 5
-
+    DEATH = 4
 
 class Therapies(Enum):
     """ mono vs. combination therapy """
@@ -95,42 +93,5 @@ def calculate_prob_matrix_anticoag():
     for s in HealthStats:
         prob_matrix.append([0] * len(HealthStats))
 
-    # for all health states
-    for s in HealthStats:
-        # if the current state is post-stroke
-        if s == HealthStats.HTN:
-            # stoke to HTN
-            prob_matrix[s.value][HealthStats.HTN.value]\
-                = Data.RR_STROKE*Data.TRANS_MATRIX[s.value][HealthStats.HTN.value]
-            # HTN to death
-            prob_matrix[s.value][HealthStats.HTN.value]\
-                = Data.RR_STROKE*Data.TRANS_MATRIX[s.value][HealthStats.DEATH.value]
-            # HTN to Detect
-            prob_matrix[s.value][HealthStats.HTN.value]\
-                = Data.RR_STROKE*Data.TRANS_MATRIX[s.value][HealthStats.HTN.value]
-            # HTN to Non-Detect
-            prob_matrix[s.value][HealthStats.HTN.value]\
-                = Data.RR_STROKE*Data.TRANS_MATRIX[s.value][HealthStats.NO_DETECT.value]
-           #de to HTN
-            prob_matrix[s.value][HealthStats.STROKE.value]\
-                = Data.RR_STROKE*Data.TRANS_MATRIX[s.value][HealthStats.HTN.value]
-            #stroke to Death
-            prob_matrix[s.value][HealthStats.STROKE.value]\
-                = Data.RR_STROKE*Data.TRANS_MATRIX[s.value][HealthStats.HTN.value]
-
-            #stroke to HTN
-            prob_matrix[s.value][HealthStats.STROKE.value]\
-                = Data.RR_STROKE*Data.TRANS_MATRIX[s.value][HealthStats.HTN.value]
-            #stroke to Death
-            prob_matrix[s.value][HealthStats.STROKE.value]\
-                = Data.RR_STROKE*Data.TRANS_MATRIX[s.value][HealthStats.HTN.value]
-            # post-stroke to death
-            prob_matrix[s.value][HealthStats.DEATH.value] \
-                = Data.RR_STROKE * Data .RR_BLEEDING * Data.TRANS_MATRIX[s.value][HealthStats.DEATH.value]
-            # staying in post-stroke
-            prob_matrix[s.value][s.value]\
-                = 1 - prob_matrix[s.value][HealthStats.STROKE.value] - prob_matrix[s.value][HealthStats.DEATH.value]
-        else:
-            prob_matrix[s.value] = Data.TRANS_MATRIX[s.value]
-
-    return prob_matrix
+    
+   
