@@ -4,7 +4,6 @@
 # Well       0        0       0     0           0         0
 # HTN        0        0       0     0           0         0
 # Detect     0        0       0     0           0         0
-# No-Detect  0        0       0     0           0         0
 # Death      0        0       0     0           0         0
 
 
@@ -20,7 +19,6 @@ TRANS_MATRIX = [
     [0.00,  0.00,   0.00,   0.00], #HTN
     [0.00,  0.00,   0.00,   0.00], #Stroke
     [0.00,  0.00,   0.00,   0.00], #Detect
-    [0.00,  0.00,   0.00,   0.00], #No Detect
     [0.00,  0.00,   0.00,   0.00], #Death
     ]
 
@@ -30,7 +28,6 @@ TRANS_MATRIX_MGSO4 = [
     [0.00,  0.00,   0.00,   0.00], #HTN
     [0.00,  0.00,   0.00,   0.00], #Stroke
     [0.00,  0.00,   0.00,   0.00], #Detect
-    [0.00,  0.00,   0.00,   0.00], #No Detect
     [0.00,  0.00,   0.00,   0.00], #Death
     ]
 
@@ -40,12 +37,11 @@ TRANS_MATRIX_ANTICOAG = [
     [0.00,  0.00,   0.00,   0.00], #HTN
     [0.00,  0.00,   0.00,   0.00], #Stroke
     [0.00,  0.00,   0.00,   0.00], #Detect 
-    [0.00,  0.00,   0.00,   0.00], #No Detect
     [0.00,  0.00,   0.00,   0.00], #Death
     ]
 
 # annual cost of medications
-COST_MGSO4 = 16.50   #a drug
+COST_MGSO4 = 10.50   #a drug
 COST_ANTICOAG = 4.50 # a normal bp med/ checkup?
 
 # cost of events
