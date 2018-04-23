@@ -9,41 +9,41 @@
 
 ALPHA = 0.05
 DISCOUNT_RATE = 0.03
-DELTA_T = 1/28
-POP_SIZE = 5000
-SIM_LENGTH = 20 #years
+DISCOUNT=.03
+DELTA_T = 1/2 #Every 6 hours
+POP_SIZE = 2000
+SIM_LENGTH = 20 #weeks
 
 # transition matrix
 TRANS_MATRIX = [
-    [0.00,  0.00,   0.00,   0.00], #Well
-    [0.00,  0.00,   0.00,   0.00], #HTN
-    [0.00,  0.00,   0.00,   0.00], #Stroke
-    [0.00,  0.00,   0.00,   0.00], #Detect
-    [0.00,  0.00,   0.00,   0.00], #Death
+    [.80,  0.05,   0.05,   0.05,  0.05], #Well
+    [0.05,  .80,   0.05,   0.05,  0.05], #HTN
+    [0.05,  0.05,   .80,   0.05,  0.05], #Stroke
+    [0.05,  0.05,   0.05,   0.05,  0.05], #Detect
+    [0.00,  0.00,   0.00,   0.00,  1.00], #Death
     ]
 
 # transition matrix
 TRANS_MATRIX_MGSO4 = [
-    [0.00,  0.00,   0.00,   0.00], #Well
-    [0.00,  0.00,   0.00,   0.00], #HTN
-    [0.00,  0.00,   0.00,   0.00], #Stroke
-    [0.00,  0.00,   0.00,   0.00], #Detect
-    [0.00,  0.00,   0.00,   0.00], #Death
+    [1.00,  0.00,   0.00,   0.00,  0.00], #Well
+    [0.00,  1.00,   0.00,   0.00,  0.00], #HTN
+    [0.00,  0.00,   1.00,   0.00,  0.00], #Stroke
+    [0.00,  0.00,   0.00,   1.00,  0.00], #Detect
+    [0.00,  0.00,   0.00,   0.00,  1.00], #Death
     ]
 
 # transition matrix
 TRANS_MATRIX_ANTICOAG = [
-    [0.00,  0.00,   0.00,   0.00], #Well
-    [0.00,  0.00,   0.00,   0.00], #HTN
-    [0.00,  0.00,   0.00,   0.00], #Stroke
-    [0.00,  0.00,   0.00,   0.00], #Detect 
-    [0.00,  0.00,   0.00,   0.00], #Death
+    [.80,  0.05,   0.05,   0.05,  0.05], #Well
+    [0.05,  .80,   0.05,   0.05,  0.05], #HTN
+    [0.05,  0.05,   .80,   0.05,  0.05], #Stroke
+    [0.05,  0.05,   0.05,   0.8,  0.05], #Detect
+    [0.00,  0.00,   0.00,   0.00,  1.00], #Death
     ]
-
 # annual cost of medications
 COST_MGSO4 = 10.50   #a drug
-COST_ANTICOAG = 4.50 # a normal bp med/ checkup?
 
+COST_ANTICOAG = 4.50 # a normal bp med/ checkup?
 # cost of events
 COST_STROKE = 12780    #heart attk
 

@@ -30,7 +30,7 @@ class ParametersFixed():
         if self._therapy == Therapies.NONE:
             self._annualTreatmentCost = 0
         if self._therapy == Therapies.ANTICOAG:
-            self._annualTreatmentCost = Data.Anticoag_COST
+            self._annualTreatmentCost = Data.COST_ANTICOAG
 
         # transition probability matrix of the selected therapy
         self._prob_matrix = []
@@ -38,7 +38,7 @@ class ParametersFixed():
         # calculate transition probabilities depending of which therapy options is in use
         if therapy == Therapies.NONE:
             self._prob_matrix = Data.TRANS_MATRIX
-        elif therapy == Therapies.MgSO4:
+        elif therapy == Therapies.MGSO4:
             self._prob_matrix = Data.TRANS_MATRIX_MGSO4
         else:
             self._prob_matrix = Data.TRANS_MATRIX_ANTICOAG
@@ -48,9 +48,9 @@ class ParametersFixed():
         self._annualStateUtilities = Data.HEALTH_UTILITY
 
 # annual treatment cost
-        if self._treatment == Treatment.MGSO4:
+        if self._therapy == Therapies.MGSO4:
             self._annualTreatmentCost = Data.COST_MGSO4
-        elif self._treatment == Treatment.ANTICOAG:
+        elif self._therapy == Therapies.ANTICOAG:
             self._annualTreatmentCost = Data.COST_ANTICOAG
 
     # adjusted discount rate

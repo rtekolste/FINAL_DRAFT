@@ -1,7 +1,7 @@
-import scr as PathCls
-import scr as StatCls
-import scr as rndClasses
-import scr as EconCls
+import scr.SamplePathClasses as PathCls
+import scr.StatisticalClasses as StatCls
+import scr.RandomVariantGenerators as rndClasses
+import scr.EconEvalClasses as EconCls
 import ParameterClassesApr23 as P
 import InputDataApr23 as Data
 
