@@ -12,7 +12,7 @@ class HealthStats(Enum):
 class Therapies(Enum):
     """ mono vs. combination therapy """
     NONE = 0
-    MgSO4 = 1
+    MGSO4 = 1
     ANTICOAG = 2
 
 
