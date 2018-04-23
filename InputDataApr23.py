@@ -59,7 +59,6 @@ HEALTH_COST = [
     0,   # Detect
     0,    # No Detect
     0,    # Death
-    0        # Stroke Death
 ]
 
 HEALTH_UTILITY = [
@@ -69,5 +68,4 @@ HEALTH_UTILITY = [
     0,   # Detect
     0,    # No Detect
     0,    # Death
-    0        # Stroke Death
 ]
