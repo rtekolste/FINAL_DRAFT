@@ -323,3 +323,4 @@ class CohortOutputs:
         return self._sumStat_costPE
     def get_sumStat_discounted_costEC(self):
         return self._sumStat_costEC
+    
