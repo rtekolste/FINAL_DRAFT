@@ -5,10 +5,12 @@ class HealthStats(Enum):
     """ health states of patients with HIV """
     WELL = 0
     HTN = 1
-    STROKE = 2
-    DETECT = 3
+    SEVEREPE = 2
+    ECLAMPSIA = 3
     DEATH = 4
 
+    
+    ###NEED TO DISCUSS THE THERAPIES HERE#######
 class Therapies(Enum):
     """ mono vs. combination therapy """
     NONE = 0
