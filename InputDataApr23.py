@@ -1,10 +1,10 @@
 
-#           Well    HTN     Stroke  Detect  No-Detect   Death
-#
-# Well       0        0       0     0           0         0
-# HTN        0        0       0     0           0         0
-# Detect     0        0       0     0           0         0
-# Death      0        0       0     0           0         0
+#           Well    HTN   SeverePE Eclampsia    Death   
+# Well       0        0       0       0           0    
+# HTN        0        0       0       0           0    
+# SeverePE   0        0       0       0           0    
+# Eclampsia  0        0       0       0           0    
+# Death      0        0       0       0           0    
 
 
 ALPHA = 0.05
@@ -18,8 +18,8 @@ SIM_LENGTH = 20 #weeks
 TRANS_MATRIX = [
     [.80,  0.05,   0.05,   0.05,  0.05], #Well
     [0.05,  .80,   0.05,   0.05,  0.05], #HTN
-    [0.05,  0.05,   .80,   0.05,  0.05], #Stroke
-    [0.05,  0.05,   0.05,   0.05,  0.05], #Detect
+    [0.05,  0.05,   .80,   0.05,  0.05], #SeverePE
+    [0.05,  0.05,   0.05,   0.05,  0.05], #Eclampsia
     [0.00,  0.00,   0.00,   0.00,  1.00], #Death
     ]
 
@@ -27,8 +27,8 @@ TRANS_MATRIX = [
 TRANS_MATRIX_MGSO4 = [
     [1.00,  0.00,   0.00,   0.00,  0.00], #Well
     [0.00,  1.00,   0.00,   0.00,  0.00], #HTN
-    [0.00,  0.00,   1.00,   0.00,  0.00], #Stroke
-    [0.00,  0.00,   0.00,   1.00,  0.00], #Detect
+    [0.00,  0.00,   1.00,   0.00,  0.00], #SeverePE
+    [0.00,  0.00,   0.00,   1.00,  0.00], #Eclampsia
     [0.00,  0.00,   0.00,   0.00,  1.00], #Death
     ]
 
@@ -36,8 +36,8 @@ TRANS_MATRIX_MGSO4 = [
 TRANS_MATRIX_ANTICOAG = [
     [.80,  0.05,   0.05,   0.05,  0.05], #Well
     [0.05,  .80,   0.05,   0.05,  0.05], #HTN
-    [0.05,  0.05,   .80,   0.05,  0.05], #Stroke
-    [0.05,  0.05,   0.05,   0.8,  0.05], #Detect
+    [0.05,  0.05,   .80,   0.05,  0.05], #SeverePE
+    [0.05,  0.05,   0.05,   0.8,  0.05], #DEclampsia
     [0.00,  0.00,   0.00,   0.00,  1.00], #Death
     ]
 # annual cost of medications
@@ -45,23 +45,23 @@ COST_MGSO4 = 10.50   #a drug
 
 COST_ANTICOAG = 4.50 # a normal bp med/ checkup?
 # cost of events
-COST_STROKE = 12780    #heart attk
+COST_ECLAMPSIA = 14080    #heart attack
+COST_DEATH = 120780    #heart attack
+
 
 # annual cost
 HEALTH_COST = [
     0,   # Well
     0,       # HTN
-    0,       # Stroke
-    0,   # Detect
-    0,    # No Detect
+    0,       # SeverePE
+    0,   # Eclampsia
     0,    # Death
 ]
 
 HEALTH_UTILITY = [
     0,   # Well
     0,       # HTN
-    0,       # Stroke
-    0,   # Detect
-    0,    # No Detect
+    0,       # SeverePE
+    0,   # Eclampsia
     0,    # Death
 ]
