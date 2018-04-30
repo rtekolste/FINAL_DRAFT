@@ -35,7 +35,7 @@ class ParametersFixed():
             self._annualTreatmentCost = 0
         elif self._therapy == Therapies.SUPPLIES_NO_TRAINING:
             self._annualTreatmentCost = Data.COST_SUPPLIES
-        elif self._therapy == Therapies.BETTER_TRAINING
+        elif self._therapy == Therapies.BETTER_TRAINING:
             self._annualTreatmentCost = Data.COST_TRAINING
         else:
             self._annualTreatmentCost = Data.COST_TRAINING + Data.COST_SUPPLIES
@@ -45,24 +45,24 @@ class ParametersFixed():
         # transition probability matrix of the selected therapy
         self._prob_matrix = []
         # calculate transition probabilities depending of which therapy options is in use
-        if therapy == Therapies.BASELINE:
-            self._prob_matrix = Data.BASELINE_MATRIX
-        elif therapy == Therapies.SUPPLIES_NO_TRAINING:
-            self._prob_matrix = Data.SUPPLIES_NO_TRAINING_MATRIX
-        elif therapy == Therapies.BETTER_TRAINING:
-            self._prob_matrix = Data.BETTER_TRAINING_MATRIX
-        else:
-            self._prob_matrix = Data.BETTER_SUPPLIES_AND_TRAINING_MATRIX
+#        if therapy == Therapies.BASELINE:
+#            self._prob_matrix = Data.BASELINE_MATRIX
+#        elif therapy == Therapies.SUPPLIES_NO_TRAINING:
+#            self._prob_matrix = Data.SUPPLIES_NO_TRAINING_MATRIX
+#        elif therapy == Therapies.BETTER_TRAINING:
+#            self._prob_matrix = Data.BETTER_TRAINING_MATRIX
+#        else:
+#            self._prob_matrix = Data.BETTER_SUPPLIES_AND_TRAINING_MATRIX
             
             
             #checked above
 
             # calculate transition probabilities depending of which therapy options is in use
         if therapy == Therapies.BASELINE:
-            self._prob_matrix, p= SupportLibrary.continuous_to_discrete(Data.BASELINE_MATRIX, Data.DELTA_T)
+            self._prob_matrix, p = SupportLibrary.continuous_to_discrete(Data.BASELINE_MATRIX, Data.DELTA_T)
         elif therapy == Therapies.SUPPLIES_NO_TRAINING:
             self._prob_matrix, p= SupportLibrary.continuous_to_discrete(Data.SUPPLIES_NO_TRAINING_MATRIX, Data.DELTA_T)
-        eliif therapy == Therapies.BETTER_TRAINING:
+        elif therapy == Therapies.BETTER_TRAINING:
             self._prob_matrix, p= SupportLibrary.continuous_to_discrete(Data.BBETTER_TRAINING_MATRIX, Data.DELTA_T)
         else:
             self._prob_matrix, p = SupportLibrary.continuous_to_discrete(Data.BETTER_SUPPLIES_AND_TRAINING_MATRIX, Data.DELTA_T)

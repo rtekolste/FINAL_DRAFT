@@ -14,39 +14,38 @@ POP_SIZE = 2000
 SIM_LENGTH = 20 #weeks
 
 
-BASELINE = [
-    [0.8946394843,  0.1053605157,   0.00,   0], #Well
-    [0.00,  0.6264736985,   0.3735263015,   0], #HTN
-    [0, 0.00,   0.9799769454,   0.02002305456], #SeverePE
+BASELINE_MATRIX = [
+    [0.895,  0.105,   0.00,   0], #Well
+    [0.00,  0.626,   0.374,   0], #HTN
+    [0, 0.00,   0.980,   0.020], #SeverePE
     [0, 0,  0,  1] #Eclampsia
     ]
 
 
 # transition matrix
 SUPPLIES_NO_TRAINING = [    
-    [0.8946394843,	0.1053605157,	0,	0],
-    [0, 0.7131609604,   0.2868390396,	0],#HTN
-    [0,	0,	0.9814844583,	0.01851554169], #SeverePE
+    [0.895,	0.105,	0,	0],
+    [0, 0.713,   0.287,	0],#HTN
+    [0,	0,	0.981,	0.019], #SeverePE
     [0,	0,  0,	1] #Eclampsia
     ]
 
 # transition matrix
 BETTER_TRAINING = [
-    [0.9,	0.1,	0,	0],#Well
-    [0,	0.710065,	0.289935,	0], #HTN
-    [0,	0,	0.9801838858,	0.0198161142], #SeverePE
+    [0.895,	0.105, 0,	0],#Well
+    [0,	0.652,	0.348,	0], #HTN
+    [0,	0,	0.980,	0.020], #SeverePE
     [0,	0,	0,	1] #Eclampsia
     ]
 
 
 # transition matrix
 BETTER_SUPPLIES_AND_TRAINING = [
-    [0.8946394843,	0.1053605157, 0,	0],#Well
-    [0,	0.7913247999,	0.2086752001,	0], #HTN
-    [0,	0,	0.9913507665,	0.008649233463], #SeverePE
-    [0	0,	0,	1] #Eclampsia
+    [0.895,	0.105, 0,	0],#Well
+    [0,	0.791,	0.209,	0], #HTN
+    [0,	0,	0.991,	0.009], #SeverePE
+    [0,	0,	0,	1] #Eclampsia
     ]
-
 
 # annual cost of medications
 COST_MGSO4 = 5   #a drug
