@@ -40,10 +40,10 @@ class ParametersFixed():
         else:
             self._annualTreatmentCost = Data.COST_TRAINING + Data.COST_SUPPLIES
             
-            
 
         # transition probability matrix of the selected therapy
         self._prob_matrix = []
+        self._continuous_matrix = [ ]
         # calculate transition probabilities depending of which therapy options is in use
 #        if therapy == Therapies.BASELINE:
 #            self._prob_matrix = Data.BASELINE_MATRIX
@@ -59,13 +59,15 @@ class ParametersFixed():
 
             # calculate transition probabilities depending of which therapy options is in use
         if therapy == Therapies.BASELINE:
-            self._prob_matrix, p = SupportLibrary.continuous_to_discrete(Data.BASELINE_MATRIX, Data.DELTA_T)
+            self._continuous_matrix = SupportLibrary.discrete_to_continuous(Data.BASELINE_MATRIX, Data.DELTA_T)
         elif therapy == Therapies.SUPPLIES_NO_TRAINING:
-            self._prob_matrix, p= SupportLibrary.continuous_to_discrete(Data.SUPPLIES_NO_TRAINING_MATRIX, Data.DELTA_T)
+            self._continuous_matrix = SupportLibrary.discrete_to_continuous(Data.SUPPLIES_NO_TRAINING_MATRIX, Data.DELTA_T)
         elif therapy == Therapies.BETTER_TRAINING:
-            self._prob_matrix, p= SupportLibrary.continuous_to_discrete(Data.BBETTER_TRAINING_MATRIX, Data.DELTA_T)
+            self._continuous_matrix = SupportLibrary.discrete_to_continuous(Data.BETTER_TRAINING_MATRIX, Data.DELTA_T)
         else:
-            self._prob_matrix, p = SupportLibrary.continuous_to_discrete(Data.BETTER_SUPPLIES_AND_TRAINING_MATRIX, Data.DELTA_T)
+            self._continuous_matrix = SupportLibrary.discrete_to_continuous(Data.BETTER_SUPPLIES_AND_TRAINING_MATRIX, Data.DELTA_T)
+
+        self._prob_matrix, p = SupportLibrary.continuous_to_discrete(self._continuous_matrix, Data.DELTA_T)
 
             
 #annual state cvsots and utilities
@@ -95,7 +97,6 @@ class ParametersFixed():
 
     def get_annual_treatment_cost(self):
         return self._annualTreatmentCost
-
 
     
    

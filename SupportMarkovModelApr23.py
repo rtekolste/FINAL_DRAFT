@@ -1,9 +1,9 @@
 import InputDataApr23 as Settings
-import scr as F
-import scr as Stat
-import scr as Econ
-import scr as PathCls
-import scr as Figs
+import scr.FormatFunctions as F
+import scr.StatisticalClasses as Stat
+import scr.EconEvalClasses as Econ
+import scr.SamplePathClasses as PathCls
+import scr.FigureSupport as Figs
 
 
 def print_outcomes(simOutput, therapy_name):
@@ -12,16 +12,10 @@ def print_outcomes(simOutput, therapy_name):
     :param therapy_name: the name of the selected therapy
     """
     # mean and confidence interval text of patient survival time
-    survival_mean_CI_text = F.format_estimate_interval(
-        estimate=simOutput.get_sumStat_survival_times().get_mean(),
-        interval=simOutput.get_sumStat_survival_times().get_t_CI(alpha=Settings.ALPHA),
-        deci=2)
-
-    # mean and confidence interval text of time to stroke
-    strokes_mean_CI_text = F.format_estimate_interval(
-        estimate=simOutput.get_sumStat_count_strokes().get_mean(),
-        interval=simOutput.get_sumStat_count_strokes().get_t_CI(alpha=Settings.ALPHA),
-        deci=2)
+#    ect_mean_CI_text = F.format_estimate_interval(
+#        estimate=simOutput.get_sumStat_eclampsia_times.get_mean(),
+#        interval=simOutput.get_sumStat_eclampsia_times().get_t_CI(alpha=Settings.ALPHA),
+#        deci=2)
 
     cost_mean_CI_text = F.format_estimate_interval(
         estimate=simOutput.get_sumStat_discounted_cost().get_mean(),
@@ -35,10 +29,8 @@ def print_outcomes(simOutput, therapy_name):
 
     # print outcomes
     print(therapy_name)
-    print("  Estimate of mean and {:.{prec}%} CI of survival time:".format(1 - Settings.ALPHA, prec=0),
-          survival_mean_CI_text)
-    print("  Estimate of mean and {:.{prec}%} CI of time to stroke:".format(1 - Settings.ALPHA, prec=0),
-          strokes_mean_CI_text)
+    #print("  Estimate of mean and {:.{prec}%} CI of time to seizure:".format(1 - Settings.ALPHA, prec=0),
+    #      ect_mean_CI_text)
     print("  Estimate of discounted cost and {:.{prec}%} CI:".format(1 - Settings.ALPHA, prec=0),
           cost_mean_CI_text)
     print("  Estimate of discounted utility and {:.{prec}%} CI:".format(1 - Settings.ALPHA, prec=0),
@@ -92,12 +84,12 @@ def print_comparative_outcomes(simOutputs_mono, simOutputs_combo):
     """
 
     # increase in survival time under combination therapy with respect to mono therapy
-    increase_survival_time = Stat.DifferenceStatIndp(name="Increase in survival time",
-                                                     x=simOutputs_combo.get_survival_times(),
-                                                     y_ref=simOutputs_mono.get_survival_times())
+    increase_ecl_time = Stat.DifferenceStatIndp(name="Increase in time to",
+                                                     x=simOutputs_combo.get_ecl_times(),
+                                                     y_ref=simOutputs_mono.get_ecl_times())
     # estimate and CI
-    estimate_CI = F.format_estimate_interval(estimate=increase_survival_time.get_mean(),
-                                             interval=increase_survival_time.get_t_CI(alpha=Settings.ALPHA),
+    estimate_CI = F.format_estimate_interval(estimate=increase_ecl_time.get_mean(),
+                                             interval=increase_ecl_time.get_t_CI(alpha=Settings.ALPHA),
                                              deci=2)
 
     print("Average increase in survival time "
@@ -136,13 +128,17 @@ def print_comparative_outcomes(simOutputs_mono, simOutputs_combo):
           estimate_CI)
 
 
-def report_CEA_CBA(simOutputs_none, simOutputs_anticoag):
-    no_therapy_strategy=Econ.Strategy(name="No therapy", cost_obs=simOutputs_none.get_costs(),
+def report_CEA_CBA(simOutputs_none, simOutputs2, simOutputs3, simOutputs4):
+    no_change=Econ.Strategy(name="No change", cost_obs=simOutputs_none.get_costs(),
                                       effect_obs=simOutputs_none.get_utilities())
-    anticoag_therapy_strategy=Econ.Strategy(name="Anticoagulation therapy", cost_obs=simOutputs_anticoag.get_costs(),
-                                            effect_obs=simOutputs_anticoag.get_utilities())
+    supplies=Econ.Strategy(name="Additional Supplies", cost_obs=simOutputs2.get_costs(),
+                                      effect_obs=simOutputs2.get_utilities())
+    training=Econ.Strategy(name="Additional Training", cost_obs=simOutputs3.get_costs(),
+                                      effect_obs=simOutputs3.get_utilities())
+    supplies_and_training=Econ.Strategy(name="Adding Supplies and Training", cost_obs=simOutputs4.get_costs(),
+                                            effect_obs=simOutputs4.get_utilities())
 
-    listofStrategies = [no_therapy_strategy, anticoag_therapy_strategy]
+    listofStrategies = [no_change, supplies, training, supplies_and_training]
 
     CEA = Econ. CEA(listofStrategies, if_paired=False)
 

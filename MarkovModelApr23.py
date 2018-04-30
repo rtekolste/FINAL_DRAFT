@@ -53,10 +53,6 @@ class Patient:  # when you store in self then all the things in that class have 
         """ returns the patient's eclampsia time"""
         return self._stateMonitor.get_eclampsia_time()
 
-    def get_number_of_strokes(self):
-        """ returns the patient's time to the POST_STROKE state """
-        return self._stateMonitor.get_num_of_STROKE()
-
     def get_total_discounted_cost(self):
         return self._stateMonitor.get_total_discounted_cost()
 
@@ -74,14 +70,13 @@ class PatientStateMonitor:
         self._currentState = parameters.get_initial_health_state()
         self._delta_t = parameters.get_delta_t()
         self._eclampsiaTime = 0
- 
+        self._costUtilityOutcomes = PatientCostUtilityMonitor(parameters)
   
     def get_if_eclampsia(self):
-        result = True
-        if self._currentState in [P.HealthStats.ECLAMPSIA, P.HealthStats.SEVEREPE]:
-            result = False
+        result = False
+        if self._currentState in [P.HealthStats.ECLAMPSIA]:
+            result = True
         return result
-        self._costUtilityOutcomes = PatientCostUtilityMonitor(parameters)
 
     def update(self, k, next_state):
         """
@@ -113,7 +108,7 @@ class PatientStateMonitor:
     def get_eclampsia_time(self):
         """ returns the patient eclampsia time """
         # return survival time only if the patient has died
-        if not self.get_if_eclampsia():
+        if self.get_if_eclampsia():
             return self._eclampsiaTime
         else:
             return None
@@ -132,10 +127,8 @@ class PatientCostUtilityMonitor:
 
         utility = 0.5 * (self._param.get_annual_state_utility(current_state) +
                          (self._param.get_annual_state_utility(next_state))) * self._param.get_delta_t()
-        if next_state is P.HealthStats.DEATH:
-            cost += 0.5*self._param.get_annual_treatment_cost() * self._param.get_delta_t()
-        else:
-            cost += 1*self._param.get_annual_treatment_cost() * self._param.get_delta_t()
+
+        cost += 1*self._param.get_annual_treatment_cost() * self._param.get_delta_t()
         self._totalDiscountedCost += EconCls.pv(cost, self._param.get_adj_discount_rate()/2, 2*k+1)
         self._totalDiscountedUtility += EconCls.pv(utility, self._param.get_adj_discount_rate()/2, 2*k+1)
 
@@ -188,8 +181,6 @@ class CohortOutputs:
         """
 
         self._eclampsiaTimes = []        # patients' eclampsia times
-        self._times_to_Stroke = []        # patients' times to stroke
-        self._count_strokes = []
         self._utilities = []
         self._costs = []
         
@@ -208,31 +199,23 @@ class CohortOutputs:
                 self._eclampsiaTimes.append(eclampsia_time)           # store the EC time of this patient
                 self._eclampsiaCurve.record(eclampsia_time, -1)       # update the EC curve
 
-            count_strokes = patient.get_number_of_strokes()
-            self._count_strokes.append(count_strokes)
             self._costs.append(patient.get_total_discounted_cost())
             self._utilities.append(patient.get_total_discounted_utility())
 
         # summary statistics
         self._sumStat_ECTime = StatCls.SummaryStat('Patient Eclampsia time', self._eclampsiaTimes)
-        self._sumState_number_strokes = StatCls.SummaryStat('Time until stroke', self._count_strokes)
         self._sumStat_cost = StatCls.SummaryStat('Patient discounted cost', self._costs)
         self._sumStat_utility = StatCls.SummaryStat('Patient discounted utility', self._utilities)
 
-    def get_if_developed_stroke(self):
-        return self._count_strokes
 
     def get_eclampsia_times(self):
-        return self._eclmampsiaTimes
+        return self._eclampsiaTimes
 
     def get_sumStat_eclampsia_times(self):
-        return self._sumStat_eclampsiaTime
+        return self._sumStat_ECTime
 
     def get_eclampsia_curve(self):
         return self._eclampsiaCurve
-
-    def get_sumStat_count_strokes(self):
-        return self._sumState_number_strokes
 
     def get_costs(self):
         return self._costs
