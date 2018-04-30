@@ -34,7 +34,7 @@ class Patient:  # when you store in self then all the things in that class have 
         k = 0  # current time step
 
         # while the patient is alive and simulation length is not yet reached
-        while self._stateMonitor.get_if_alive() and k*self._delta_t < sim_length:
+        while self._stateMonitor.get_if_eclampsia() and k*self._delta_t < sim_length:
             # find transition probabilities of future state
             trans_prob = self._param.get_transition_prob(self._stateMonitor.get_current_state())
             # create an empirical distribution
@@ -49,9 +49,9 @@ class Patient:  # when you store in self then all the things in that class have 
             # increment time step
             k += 1
 
-    def get_survival_time(self):
-        """ returns the patient's survival time"""
-        return self._stateMonitor.get_survival_time()
+    def get_eclampsia_time(self):
+        """ returns the patient's eclampsia time"""
+        return self._stateMonitor.get_eclampsia_time()
 
     def get_number_of_strokes(self):
         """ returns the patient's time to the POST_STROKE state """
@@ -73,10 +73,14 @@ class PatientStateMonitor:
         # current health state
         self._currentState = parameters.get_initial_health_state()
         self._delta_t = parameters.get_delta_t()
-        self._survivalTime = 0
-        self._ifDevelopedStroke = False
-        self._strokecount = 0
-
+        self._eclampsiaTime = 0
+ 
+  
+    def get_if_eclampsia(self):
+        result = True
+        if self._currentState in [P.HealthStats.ECLAMPSIA, P.HealthStats.SEVEREPE]:
+            result = False
+        return result
         self._costUtilityOutcomes = PatientCostUtilityMonitor(parameters)
 
     def update(self, k, next_state):
@@ -85,49 +89,34 @@ class PatientStateMonitor:
         :param next_state: next state
         """
         # updates state of patient
-        # if the patient has died, do nothing
-        if not self.get_if_alive():
+        # if the patient has eclampsia, do nothing
+        if not self.get_if_eclampsia():
             return
 
-        # update survival time
-        if next_state is P.HealthStats.DEATH:
-            self._survivalTime = (k+0.5) * self._delta_t  # k is number of steps its been, delta t is length of time
+        # update time to eclampsia
+        if next_state is P.HealthStats.ECLAMPSIA:
+            self._eclampsiaTime = (k+0.5) * self._delta_t  # k is number of steps its been, delta t is length of time
             # step, the 0.5 is a half cycle correction
 
-        # update stroke count
-        if self._currentState == P.HealthStats.STROKE:
-            self._ifDevelopedStroke = True
-            self._strokecount += 1
-
         self._costUtilityOutcomes.update(k, self._currentState, next_state)
-
         self._currentState = next_state
-
-    def get_if_alive(self):
-        result = True
-        if self._currentState == P.HealthStats.DEATH:
-            result = False
-        return result
 
     def get_current_state(self):
         return self._currentState
-
-    def get_survival_time(self):
-        """ returns the patient survival time """
-        # return survival time only if the patient has died
-        if not self.get_if_alive():
-            return self._survivalTime
-        else:
-            return None
-
-    def get_num_of_STROKE(self):
-        return self._strokecount
 
     def get_total_discounted_cost(self):
         return self._costUtilityOutcomes.get_total_discounted_cost()
 
     def get_total_discounted_utility(self):
         return self._costUtilityOutcomes.get_total_discounted_utility()
+    
+    def get_eclampsia_time(self):
+        """ returns the patient eclampsia time """
+        # return survival time only if the patient has died
+        if not self.get_if_eclampsia():
+            return self._eclampsiaTime
+        else:
+            return None
 
 
 class PatientCostUtilityMonitor:
@@ -198,24 +187,26 @@ class CohortOutputs:
         :param simulated_cohort: a cohort after being simulated
         """
 
-        self._survivalTimes = []        # patients' survival times
+        self._eclampsiaTimes = []        # patients' eclampsia times
         self._times_to_Stroke = []        # patients' times to stroke
         self._count_strokes = []
         self._utilities = []
         self._costs = []
+        
+        
 
-        # survival curve
-        self._survivalCurve = \
+        # eclampsia curve
+        self._eclampsiaCurve = \
             PathCls.SamplePathBatchUpdate('Population size over time', id, simulated_cohort.get_initial_pop_size())
 
-        # find patients' survival times
+        # find patients' ec times
         for patient in simulated_cohort.get_patients():
 
-            # get the patient survival time
-            survival_time = patient.get_survival_time()
-            if not (survival_time is None):
-                self._survivalTimes.append(survival_time)           # store the survival time of this patient
-                self._survivalCurve.record(survival_time, -1)       # update the survival curve
+            # get the patient EC time
+            eclampsia_time = patient.get_eclampsia_time()
+            if not (eclampsia_time is None):
+                self._eclampsiaTimes.append(eclampsia_time)           # store the EC time of this patient
+                self._eclampsiaCurve.record(eclampsia_time, -1)       # update the EC curve
 
             count_strokes = patient.get_number_of_strokes()
             self._count_strokes.append(count_strokes)
@@ -223,7 +214,7 @@ class CohortOutputs:
             self._utilities.append(patient.get_total_discounted_utility())
 
         # summary statistics
-        self._sumStat_survivalTime = StatCls.SummaryStat('Patient survival time', self._survivalTimes)
+        self._sumStat_ECTime = StatCls.SummaryStat('Patient Eclampsia time', self._eclampsiaTimes)
         self._sumState_number_strokes = StatCls.SummaryStat('Time until stroke', self._count_strokes)
         self._sumStat_cost = StatCls.SummaryStat('Patient discounted cost', self._costs)
         self._sumStat_utility = StatCls.SummaryStat('Patient discounted utility', self._utilities)
@@ -231,14 +222,14 @@ class CohortOutputs:
     def get_if_developed_stroke(self):
         return self._count_strokes
 
-    def get_survival_times(self):
-        return self._survivalTimes
+    def get_eclampsia_times(self):
+        return self._eclmampsiaTimes
 
-    def get_sumStat_survival_times(self):
-        return self._sumStat_survivalTime
+    def get_sumStat_eclampsia_times(self):
+        return self._sumStat_eclampsiaTime
 
-    def get_survival_curve(self):
-        return self._survivalCurve
+    def get_eclampsia_curve(self):
+        return self._eclampsiaCurve
 
     def get_sumStat_count_strokes(self):
         return self._sumState_number_strokes
