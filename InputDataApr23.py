@@ -13,43 +13,42 @@ DELTA_T = 1/2 #Every 6 hours
 POP_SIZE = 2000
 SIM_LENGTH = 20 #weeks
 
-# transition matrix
+
 BASELINE = [
-    [.80,  0.05,   0.05,   0.05,  0.05], #Well
-    [0.05,  .80,   0.05,   0.05,  0.05], #HTN
-    [0.05,  0.05,   .80,   0.05,  0.05], #SeverePE
-    [0.05,  0.05,   0.05,   0.05,  0.05], #Eclampsia
-    [0.00,  0.00,   0.00,   0.00,  1.00], #Death
+    [0.8946394843,  0.1053605157,   0.00,   0], #Well
+    [0.00,  0.6264736985,   0.3735263015,   0], #HTN
+    [0, 0.00,   0.9799769454,   0.02002305456], #SeverePE
+    [0, 0,  0,  1] #Eclampsia
     ]
+
 
 # transition matrix
-SUPPLIES_NO_TRAINING = [
-    [1.00,  0.00,   0.00,   0.00,  0.00], #Well
-    [0.00,  1.00,   0.00,   0.00,  0.00], #HTN
-    [0.00,  0.00,   1.00,   0.00,  0.00], #SeverePE
-    [0.00,  0.00,   0.00,   1.00,  0.00], #Eclampsia
-    [0.00,  0.00,   0.00,   0.00,  1.00], #Death
+SUPPLIES_NO_TRAINING = [    
+    [0.8946394843,	0.1053605157,	0,	0],
+    [0, 0.7131609604,   0.2868390396,	0],#HTN
+    [0,	0,	0.9814844583,	0.01851554169], #SeverePE
+    [0,	0,  0,	1] #Eclampsia
     ]
-
 # transition matrix
 BETTER_TRAINING = [
-    [.80,  0.05,   0.05,   0.05,  0.05], #Well
-    [0.05,  .80,   0.05,   0.05,  0.05], #HTN
-    [0.05,  0.05,   .80,   0.05,  0.05], #SeverePE
-    [0.05,  0.05,   0.05,   0.8,  0.05], #DEclampsia
-    [0.00,  0.00,   0.00,   0.00,  1.00], #Death
+    [0.9,	0.1,	0,	0],#Well
+    [0,	0.710065,	0.289935,	0], #HTN
+    [0,	0,	0.980285023,	0.01971497701], #SeverePE
+    [0,	0,	0,	1] #Eclampsia
     ]
 
 # transition matrix
 BETTER_SUPPLIES_AND_TRAINING = [
-    [.80,  0.05,   0.05,   0.05,  0.05], #Well
-    [0.05,  .80,   0.05,   0.05,  0.05], #HTN
-    [0.05,  0.05,   .80,   0.05,  0.05], #SeverePE
-    [0.05,  0.05,   0.05,   0.8,  0.05], #DEclampsia
-    [0.00,  0.00,   0.00,   0.00,  1.00], #Death
+    [0.8946394843,	0.1053605157, 0,	0],#Well
+    [0,	0.7913247999,	0.2086752001,	0], #HTN
+    [0,	0,	0.9913507665,	0.008649233463], #SeverePE
+    [0	0,	0,	1] #Eclampsia
     ]
+
+
 # annual cost of medications
-COST_MGSO4 = 10.50   #a drug
+COST_MGSO4 = 5   #a drug
+COST_MD = 4
 
 COST_ANTICOAG = 4.50 # a normal bp med/ checkup?
 # cost of events
@@ -63,13 +62,11 @@ HEALTH_COST = [
     0,       # HTN
     0,       # SeverePE
     0,   # Eclampsia
-    0,    # Death
 ]
 
 HEALTH_UTILITY = [
-    0,   # Well
-    0,       # HTN
-    0,       # SeverePE
-    0,   # Eclampsia
-    0,    # Death
+    1.0,   # Well
+    0.8,       # HTN
+    0.6,       # SeverePE
+    0.1,   # Eclampsia
 ]
