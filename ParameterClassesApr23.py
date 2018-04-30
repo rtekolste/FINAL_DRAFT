@@ -97,6 +97,3 @@ class ParametersFixed():
 
     def get_annual_treatment_cost(self):
         return self._annualTreatmentCost
-
-    
-   
