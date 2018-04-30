@@ -7,15 +7,15 @@ class HealthStats(Enum):
     HTN = 1
     SEVEREPE = 2
     ECLAMPSIA = 3
-    DEATH = 4
 
     
     ###NEED TO DISCUSS THE THERAPIES HERE#######
 class Therapies(Enum):
     """ mono vs. combination therapy """
-    NONE = 0
-    MGSO4 = 1
-    ANTICOAG = 2
+    BASELINE = 0
+    SUPPLIES_NO_TRAINING = 1
+    BETTER_TRAINING = 2
+    BETTER_SUPPLIES_AND_TRAINING = 3
 
 
 class ParametersFixed():
@@ -28,32 +28,37 @@ class ParametersFixed():
         # initial health state
         self._initialHealthState = HealthStats.WELL
 
-        # annual treatment cost
-        if self._therapy == Therapies.NONE:
+        ##THIS IS CHECKED
+        # cost treatment per preg
+        if self._therapy == Therapies.BASELINE:
             self._annualTreatmentCost = 0
-        if self._therapy == Therapies.ANTICOAG:
-            self._annualTreatmentCost = Data.COST_ANTICOAG
+        elif self._therapy == Therapies.SUPPLIES_NO_TRAINING:
+            self._annualTreatmentCost = Data.COST_SUPPLIES
+        elif self._therapy == Therapies.BETTER_TRAINING
+            self._annualTreatmentCost = Data.COST_TRAINING
+        else:
+            self._annualTreatmentCost = Data.COST_TRAINING + Data.COST_SUPPLIES
+            
+            
 
         # transition probability matrix of the selected therapy
         self._prob_matrix = []
-
         # calculate transition probabilities depending of which therapy options is in use
-        if therapy == Therapies.NONE:
-            self._prob_matrix = Data.TRANS_MATRIX
-        elif therapy == Therapies.MGSO4:
-            self._prob_matrix = Data.TRANS_MATRIX_MGSO4
+        if therapy == Therapies.BASELINE:
+            self._prob_matrix = Data.BASELINE_MATRIX
+        elif therapy == Therapies.SUPPLIES_NO_TRAINING:
+            self._prob_matrix = Data.SUPPLIES_NO_TRAINING_MATRIX
+        elif therapy == Therapies.BETTER_TRAINING:
+            self._prob_matrix = Data.BETTER_TRAINING_MATRIX
         else:
-            self._prob_matrix = Data.TRANS_MATRIX_ANTICOAG
+            self._prob_matrix = Data.BETTER_SUPPLIES_AND_TRAINING_MATRIX
+            
+            
+            #checked above
 
 #annual state cvsots and utilities
         self._annualStateCosts = Data.HEALTH_COST
         self._annualStateUtilities = Data.HEALTH_UTILITY
-
-# annual treatment cost
-        if self._therapy == Therapies.MGSO4:
-            self._annualTreatmentCost = Data.COST_MGSO4
-        elif self._therapy == Therapies.ANTICOAG:
-            self._annualTreatmentCost = Data.COST_ANTICOAG
 
     # adjusted discount rate
         self._adjDiscountRate = Data.DISCOUNT_RATE * Data.DELTA_T
@@ -71,29 +76,14 @@ class ParametersFixed():
         return self._prob_matrix[state.value]
 
     def get_annual_state_cost(self, state):
-        if state == HealthStats.DEATH:
-            return 0
-        else:
-            return self._annualStateCosts[state.value]
+        return self._annualStateCosts[state.value]
 
     def get_annual_state_utility(self, state):
-        if state == HealthStats.DEATH:
-            return 0
-        else:
-            return self._annualStateUtilities[state.value]
+        return self._annualStateUtilities[state.value]
 
     def get_annual_treatment_cost(self):
         return self._annualTreatmentCost
 
-####Get this checked...#####
-
-def calculate_prob_matrix_anticoag():
-    """ :returns transition probability matrix under anticoagulation use"""
-
-    # create an empty matrix populated with zeroes
-    prob_matrix = []
-    for s in HealthStats:
-        prob_matrix.append([0] * len(HealthStats))
 
     
    
