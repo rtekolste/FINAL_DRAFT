@@ -53,10 +53,10 @@ COST_TRAINING = 0
 
 # annual cost
 HEALTH_COST = [
-    0,   # Well
-    0,   # HTN
-    0,   # SeverePE
-    0,   # Eclampsia
+    5000,   # Well
+    5500,   # HTN
+    8000,   # SeverePE
+    9500,   # Eclampsia
 ]
 
 HEALTH_UTILITY = [

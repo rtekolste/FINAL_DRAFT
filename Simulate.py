@@ -11,7 +11,6 @@ cohort = MarkovCls.Cohort(
 
 output_baseline = cohort.simulate()
 
-
 cohort2 = MarkovCls.Cohort(
     id=1,
     therapy=P.Therapies.BETTER_TRAINING)
