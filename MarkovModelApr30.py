@@ -2,8 +2,8 @@ import scr.SamplePathClasses as PathCls
 import scr.StatisticalClasses as StatCls
 import scr.RandomVariantGenerators as rndClasses
 import scr.EconEvalClasses as EconCls
-import ParameterClassesApr23 as P
-import InputDataApr23 as Data
+import HW10.ParameterClasses as P
+import HW10.InputData as Data
 
 # patient class simulates patient, patient monitor follows patient, cohort simulates a cohort,
 #  cohort outcome extracts info from simulation and returns it back
@@ -34,7 +34,7 @@ class Patient:  # when you store in self then all the things in that class have 
         k = 0  # current time step
 
         # while the patient is alive and simulation length is not yet reached
-        while self._stateMonitor.get_if_eclampsia() and k*self._delta_t < sim_length:
+        while self._stateMonitor.get_if_alive() and k*self._delta_t < sim_length:
             # find transition probabilities of future state
             trans_prob = self._param.get_transition_prob(self._stateMonitor.get_current_state())
             # create an empirical distribution
@@ -49,17 +49,19 @@ class Patient:  # when you store in self then all the things in that class have 
             # increment time step
             k += 1
 
-    def get_eclampsia_time(self):
-        """ returns the patient's eclampsia time"""
-        return self._stateMonitor.get_eclampsia_time()
+    def get_survival_time(self):
+        """ returns the patient's survival time"""
+        return self._stateMonitor.get_survival_time()
+
+    def get_number_of_strokes(self):
+        """ returns the patient's time to the POST_STROKE state """
+        return self._stateMonitor.get_num_of_STROKE()
 
     def get_total_discounted_cost(self):
         return self._stateMonitor.get_total_discounted_cost()
 
     def get_total_discounted_utility(self):
         return self._stateMonitor.get_total_discounted_utility()
-
-
 
 class PatientStateMonitor:
     """ to update patient outcomes (years survived, cost, etc.) throughout the simulation """
