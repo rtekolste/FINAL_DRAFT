@@ -15,10 +15,10 @@ SIM_LENGTH = 20 #weeks
 
 
 BASELINE_MATRIX = [
-    [0.895,  0.105,   0.00,   0], #Well
-    [0.00,  0.626,   0.374,   0], #HTN
-    [0, 0.00,   0.980,   0.020], #SeverePE
-    [0, 0,  0,  1] #Eclampsia
+    [0.895, 0.105, 0.00, 0], #Well
+    [0.00, 0.626, 0.374, 0], #HTN
+    [0, 0.00, 0.980, 0.020], #SeverePE
+    [0, 0, 0, 1] #Eclampsia
     ]
 
 
@@ -32,8 +32,8 @@ SUPPLIES_NO_TRAINING = [
 
 # transition matrix
 BETTER_TRAINING = [
-    [0.895,	0.105, 0,	0],#Well
-    [0,	0.652,	0.348,	0], #HTN
+    [0.895,	0.105, 0, 0],#Well
+    [0,	0.652, 0.348, 0], #HTN
     [0,	0,	0.980,	0.020], #SeverePE
     [0,	0,	0,	1] #Eclampsia
     ]
