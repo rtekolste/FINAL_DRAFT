@@ -29,13 +29,15 @@ SUPPLIES_NO_TRAINING = [
     [0,	0,	0.9814844583,	0.01851554169], #SeverePE
     [0,	0,  0,	1] #Eclampsia
     ]
+
 # transition matrix
 BETTER_TRAINING = [
     [0.9,	0.1,	0,	0],#Well
     [0,	0.710065,	0.289935,	0], #HTN
-    [0,	0,	0.980285023,	0.01971497701], #SeverePE
+    [0,	0,	0.9801838858,	0.0198161142], #SeverePE
     [0,	0,	0,	1] #Eclampsia
     ]
+
 
 # transition matrix
 BETTER_SUPPLIES_AND_TRAINING = [
@@ -52,7 +54,7 @@ COST_MD = 4
 
 COST_ANTICOAG = 4.50 # a normal bp med/ checkup?
 # cost of events
-COST_ECLAMPSIA = 14080    #heart attack
+COST_ECLAMPSIA = 14080    #need to confirm. 
 COST_DEATH = 120780    #heart attack
 
 
