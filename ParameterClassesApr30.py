@@ -2,7 +2,7 @@ from enum import Enum
 import numpy as np
 import scipy.stats as stat
 import math as math
-import HW11.InputDataApr23 as Data
+import InputDataApr23 as Data
 import scr.MarkovClasses as SupportLibrary
 import scr.RandomVariantGenerators as Random
 
@@ -93,11 +93,17 @@ class ParametersFixed():
     def get_transition_prob(self, state):
         return self._prob_matrix[state.value]
 
-    def get_annual_state_cost(self, state):
-        return self._annualStateCosts[state.value]
+    def get_annual_state_cost(self,state):
+        if state == HealthStats.ECLAMPSIA:
+            return 10000
+        else:
+            return  self._annualStateCosts[state.value]
 
-    def get_annual_state_utility(self, state):
-        return self._annualStateUtilities[state.value]
+    def get_annual_state_utility(self,state):
+        if state == HealthStats.ECLAMPSIA:
+            return 0.2
+        else:
+            return self._annualStateUtilities[state.value]
 
     def get_annual_treatment_cost(self):
         return self._annualTreatmentCost
