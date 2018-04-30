@@ -1,6 +1,10 @@
 from enum import Enum
-import InputDataApr23 as Data
+import numpy as np
+import scipy.stats as stat
+import math as math
+import HW11.InputDataApr23 as Data
 import scr.MarkovClasses as SupportLibrary
+import scr.RandomVariantGenerators as Random
 
 class HealthStats(Enum):
     """ health states of patients with HIV """
