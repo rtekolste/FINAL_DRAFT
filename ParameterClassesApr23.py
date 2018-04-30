@@ -1,5 +1,6 @@
 from enum import Enum
 import InputDataApr23 as Data
+import scr.MarkovClasses as SupportLibrary
 
 class HealthStats(Enum):
     """ health states of patients with HIV """
@@ -56,6 +57,17 @@ class ParametersFixed():
             
             #checked above
 
+            # calculate transition probabilities depending of which therapy options is in use
+        if therapy == Therapies.BASELINE:
+            self._prob_matrix, p= SupportLibrary.continuous_to_discrete(Data.BASELINE_MATRIX, Data.DELTA_T)
+        elif therapy == Therapies.SUPPLIES_NO_TRAINING:
+            self._prob_matrix, p= SupportLibrary.continuous_to_discrete(Data.SUPPLIES_NO_TRAINING_MATRIX, Data.DELTA_T)
+        eliif therapy == Therapies.BETTER_TRAINING:
+            self._prob_matrix, p= SupportLibrary.continuous_to_discrete(Data.BBETTER_TRAINING_MATRIX, Data.DELTA_T)
+        else:
+            self._prob_matrix, p = SupportLibrary.continuous_to_discrete(Data.BETTER_SUPPLIES_AND_TRAINING_MATRIX, Data.DELTA_T)
+
+            
 #annual state cvsots and utilities
         self._annualStateCosts = Data.HEALTH_COST
         self._annualStateUtilities = Data.HEALTH_UTILITY
