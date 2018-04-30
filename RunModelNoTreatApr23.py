@@ -6,7 +6,7 @@ from venv import scr as PathCls, scr as Figs
 # create and cohort
 cohort = MarkovCls.Cohort(
     id=0,
-    therapy=P.Therapies.NONE)
+    therapy=P.Therapies.BASELINE)
 
 simOutputs = cohort.simulate()
 
