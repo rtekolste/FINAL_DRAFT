@@ -46,8 +46,8 @@ BETTER_SUPPLIES_AND_TRAINING_MATRIX = [
     ]
 
 # annual cost of medications
-COST_MGSO4 = 5   #a drug
-COST_MD = 4
+COST_MGSO4 = 13   #a drug
+COST_MD = 18
 COST_SUPPLIES = COST_MGSO4 + COST_MD
 COST_TRAINING = 0
 
